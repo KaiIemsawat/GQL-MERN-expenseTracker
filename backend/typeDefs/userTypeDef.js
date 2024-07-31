@@ -10,7 +10,7 @@ const userTypeDef = `#graphql
   type Query {
     users: [User!]
     authUser: User
-    suer(userId: ID!): User
+    user(userId: ID!): User
   }
 
   type Mutation {
@@ -34,6 +34,6 @@ const userTypeDef = `#graphql
   type LogoutResponse {
     message: String!
   }
-`
+`;
 
-export default userTypeDef
+export default userTypeDef;

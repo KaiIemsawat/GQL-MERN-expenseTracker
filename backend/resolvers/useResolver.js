@@ -76,8 +76,14 @@ const userResolver = {
         },
     },
     Query: {
-        users: (_, _, { req, res }) => {
-            return users;
+        authUser: async (_, _, context) => {
+            try {
+                const user = await context.getUser();
+                return user;
+            } catch (error) {
+                console.error("Error in authUser : ", error);
+                throw new Error("Internal server error");
+            }
         },
         user: (_, { userId }) => {
             return users.find((user) => user._id === userId);

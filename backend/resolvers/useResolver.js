@@ -85,10 +85,17 @@ const userResolver = {
                 throw new Error("Internal server error");
             }
         },
-        user: (_, { userId }) => {
-            return users.find((user) => user._id === userId);
+        user: async (_, { userId }) => {
+            try {
+                const user = await User.findById(userId);
+                return user;
+            } catch (error) {
+                console.error("Error in user query : ", error);
+                throw new Error(error.message || "Internal server error");
+            }
         },
     },
+    // TODO => ADD USER / TRANSACTION RELATION
 };
 
 export default userResolver;

@@ -27,7 +27,23 @@ const transactionResolver = {
         },
         // TODO => ADD category statistics query
     },
-    Mutation: {},
+    Mutation: {
+        createTransaction: async (_, { input }, context) => {
+            try {
+                const newTransaction = new Transaction({
+                    ...input,
+                    userId: context.getUser()._id,
+                });
+                await newTransaction.save();
+                return newTransaction;
+            } catch (error) {
+                console.error("Error creating transaction : ", error);
+                throw new Error("Error creating transaction");
+            }
+        },
+        updateTransaction: async (parent, args, context) => {},
+        deleteTransaction: async (parent, args, context) => {},
+    },
 };
 
 export default transactionResolver;

@@ -14,6 +14,8 @@ const categoryColorMap = {
 };
 
 const Card = ({ cardType }) => {
+  // cardType then will be specific in Cards.jsx
+  // Then, the value of cardClass would be assigned base on 'categoryColorMap[cardType]'
   const cardClass = categoryColorMap[cardType];
 
   return (

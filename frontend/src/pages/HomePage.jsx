@@ -26,9 +26,9 @@ const HomePage = () => {
           "rgba(54, 162, 235, 1)",
         ],
         borderWidth: 1,
-        borderRadius: 30,
-        spacing: 10,
-        cutout: 130,
+        borderRadius: 0,
+        spacing: 0,
+        cutout: 116,
       },
     ],
   };

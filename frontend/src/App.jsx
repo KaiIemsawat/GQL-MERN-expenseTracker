@@ -16,6 +16,8 @@ function App() {
   console.log("Loading : ", loading);
   console.log("Authenticated user : ", data);
   console.log("Error : ", error);
+
+  if (loading) return null;
   return (
     <>
       {data?.authUser && <Header />}

@@ -15,7 +15,7 @@ const SignUpPage = () => {
     gender: "",
   });
 
-  const [signup, { loading, error }] = useMutation(SIGN_UP, {
+  const [signup, { loading }] = useMutation(SIGN_UP, {
     refetchQueries: ["GetAuthenticatedUser"],
   });
 

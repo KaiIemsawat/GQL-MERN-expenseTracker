@@ -1,11 +1,16 @@
+import { useMutation } from "@apollo/client";
+import { CREATE_TRANSACTION } from "../graphql/mutations/transactionMutation";
+import toast from "react-hot-toast";
+
 const TransactionForm = () => {
+  const [createtransaction, { loading }] = useMutation(CREATE_TRANSACTION);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
     const formData = new FormData(form);
     const transactionData = {
-      // formData.get("name of element")
       description: formData.get("description"),
       paymentType: formData.get("paymentType"),
       category: formData.get("category"),
@@ -13,7 +18,15 @@ const TransactionForm = () => {
       location: formData.get("location"),
       date: formData.get("date"),
     };
-    console.log("transactionData", transactionData);
+
+    try {
+      await createtransaction({ variables: { input: transactionData } });
+
+      form.reset();
+      toast.success("Transaction added successfully!!");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -114,6 +127,10 @@ const TransactionForm = () => {
             name="amount"
             type="number"
             placeholder="150"
+            required
+            onKeyDown={(evt) =>
+              ["e", "E", "+", "-"].includes(evt.key) && evt.preventDefault()
+            }
           />
         </div>
       </div>
@@ -132,7 +149,7 @@ const TransactionForm = () => {
             id="location"
             name="location"
             type="text"
-            placeholder="New York"
+            placeholder="Location"
           />
         </div>
 
@@ -150,6 +167,7 @@ const TransactionForm = () => {
             id="date"
             className="mb-3 block w-full appearance-none rounded border bg-gray-200 px-4 py-[11px] leading-tight text-gray-700 focus:bg-white focus:outline-none"
             placeholder="Select date"
+            required
           />
         </div>
       </div>
@@ -157,8 +175,9 @@ const TransactionForm = () => {
       <button
         className="w-full rounded bg-gradient-to-br from-pink-500 to-pink-500 px-4 py-2 font-bold text-white hover:from-pink-600 hover:to-pink-600 disabled:cursor-not-allowed disabled:opacity-70"
         type="submit"
+        disabled={loading}
       >
-        Add Transaction
+        {loading ? "Loading..." : "Add Transaction"}
       </button>
     </form>
   );

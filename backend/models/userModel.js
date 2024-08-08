@@ -24,9 +24,7 @@ const userSchema = new mongoose.Schema(
             enum: ["male", "female"],
         },
     },
-    {
-        timestamps: true,
-    }
+    { timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);

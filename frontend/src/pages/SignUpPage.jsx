@@ -21,17 +21,24 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      !signUpData.username ||
+      !signUpData.password ||
+      !signUpData.name ||
+      !signUpData.gender
+    )
+      return toast.error("All fields are required");
     try {
       await signup({
         variables: {
           input: signUpData,
         },
       });
+      toast.success("successfully signed up");
     } catch (error) {
       console.error("Error:", error);
       toast.error(error.message);
     }
-    console.log(signUpData);
   };
 
   const handleChange = (e) => {
@@ -111,7 +118,6 @@ const SignUpPage = () => {
                   disabled={loading}
                 >
                   {loading ? "Loading..." : "Sign Up"}
-                  Sign Up
                 </button>
               </div>
             </form>

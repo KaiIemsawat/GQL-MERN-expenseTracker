@@ -18,6 +18,7 @@ function App() {
   console.log("Error : ", error);
 
   if (loading) return null;
+
   return (
     <>
       {data?.authUser && <Header />}

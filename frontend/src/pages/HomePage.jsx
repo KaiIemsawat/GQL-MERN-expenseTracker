@@ -52,13 +52,51 @@ const HomePage = () => {
         label: "$",
         data: [],
         backgroundColor: [],
+        borderColor: [],
         borderWidth: 1,
         borderRadius: 0,
         spacing: 0,
-        cutout: 116,
+        cutout: 120,
       },
     ],
   });
+
+  useEffect(() => {
+    if (data?.categoryStatistics) {
+      const categories = data.categoryStatistics.map((stat) => stat.category);
+      const totalAmounts = data.categoryStatistics.map(
+        (stat) => stat.totalAmount,
+      );
+
+      const backgroundColors = [];
+      const borderColors = [];
+
+      categories.forEach((category) => {
+        if (category === "saving") {
+          backgroundColors.push("rgb(75, 192, 192)");
+          borderColors.push("rgb(75, 192, 192)");
+        } else if (category === "expense") {
+          backgroundColors.push("rgb(255, 99, 132)");
+          borderColors.push("rgb(255, 99, 132)");
+        } else if (category === "investment") {
+          backgroundColors.push("rgb(54, 162, 235)");
+          borderColors.push("rgb(54, 162, 235)");
+        }
+      });
+
+      setChartData((prev) => ({
+        labels: categories,
+        datasets: [
+          {
+            ...prev.datasets[0],
+            data: totalAmounts,
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+          },
+        ],
+      }));
+    }
+  }, [data]);
 
   const handleLogout = async () => {
     try {
@@ -69,11 +107,6 @@ const HomePage = () => {
       toast.error(error.message);
     }
   };
-
-  useEffect(() => {
-    if (data?.categoryStatistics) {
-    }
-  });
 
   return (
     <>
@@ -99,9 +132,11 @@ const HomePage = () => {
           )}
         </div>
         <div className="flex w-full flex-wrap items-center justify-center gap-6">
-          <div className="h-[330px] w-[330px] md:h-[360px] md:w-[360px]">
-            <Doughnut data={chartData} />
-          </div>
+          {data?.categoryStatistics.length > 0 && (
+            <div className="h-[330px] w-[330px] md:h-[360px] md:w-[360px]">
+              <Doughnut data={chartData} />
+            </div>
+          )}
 
           <TransactionForm />
         </div>

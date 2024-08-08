@@ -13,7 +13,7 @@ export const SIGN_UP = gql`
 /* 
 export const SIGN_UP = gql`
   mutation SignUp($matchNameHere: SignUpInput!) {
-    signUp(input <-- this match to the name in userTypeDef: $matchNameHere) {
+    signUp(input <-- `this match to the name in userTypeDef` : $matchNameHere) {
       _id
       name
       username

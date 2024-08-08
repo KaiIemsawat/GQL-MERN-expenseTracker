@@ -5,6 +5,9 @@ import { FaSackDollar } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { DELETE_TRANSACTION } from "../graphql/mutations/transactionMutation";
+import toast from "react-hot-toast";
 
 const categoryColorMap = {
   saving: "from-green-700 to-green-400",
@@ -13,43 +16,68 @@ const categoryColorMap = {
   // Add more categories and corresponding color classes as needed
 };
 
-const Card = ({ cardType }) => {
-  // cardType then will be specific in Cards.jsx
-  // Then, the value of cardClass would be assigned base on 'categoryColorMap[cardType]'
-  const cardClass = categoryColorMap[cardType];
+const Card = ({ transaction, authUser }) => {
+  let { category, amount, location, date, paymentType, description } =
+    transaction;
+  const cardClass = categoryColorMap[category];
+
+  const [deleteTransaction, { loading }] = useMutation(DELETE_TRANSACTION, {
+    refetchQueries: ["GetTransections", "GetTransactionStatistics"],
+  });
+
+  description = description[0]?.toUpperCase() + description.slice(1);
+  category = category[0]?.toUpperCase() + category.slice(1);
+  paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
+
+  const handleDelete = async () => {
+    try {
+      await deleteTransaction({
+        variables: { transactionId: transaction._id },
+      });
+      toast.success("successfully deleted transaction");
+    } catch (error) {
+      console.error("Error during deleting transaction", error);
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className={`rounded-md bg-gradient-to-br p-4 ${cardClass}`}>
       <div className="flex flex-col gap-3">
         <div className="flex flex-row items-center justify-between">
-          <h2 className="text-lg font-bold text-white">Saving</h2>
+          <h2 className="text-lg font-bold text-white">{category}</h2>
           <div className="flex items-center gap-2">
-            <FaTrash className={"cursor-pointer"} />
-            <Link to={`/transaction/123`}>
+            {!loading && (
+              <FaTrash className={"cursor-pointer"} onClick={handleDelete} />
+            )}
+            {loading && (
+              <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2"></div>
+            )}
+            <Link to={`/transaction/${transaction._id}`}>
               <HiPencilAlt className="cursor-pointer" size={20} />
             </Link>
           </div>
         </div>
         <p className="flex items-center gap-1 text-white">
           <BsCardText />
-          Description: Salary
+          Description: {description}
         </p>
         <p className="flex items-center gap-1 text-white">
           <MdOutlinePayments />
-          Payment Type: Cash
+          Payment Type: {paymentType}
         </p>
         <p className="flex items-center gap-1 text-white">
           <FaSackDollar />
-          Amount: $150
+          Amount: ${amount}
         </p>
         <p className="flex items-center gap-1 text-white">
           <FaLocationDot />
-          Location: New York
+          Location: {location || "N/A"}
         </p>
         <div className="flex items-center justify-between">
           <p className="text-xs font-bold text-black">21 Sep, 2001</p>
           <img
-            src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+            src={authUser?.profilePicture}
             className="h-8 w-8 rounded-full border"
             alt=""
           />

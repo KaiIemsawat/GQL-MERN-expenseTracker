@@ -1,6 +1,9 @@
+import { useQuery } from "@apollo/client";
 import Card from "./Card";
+import { GET_TRANSACTION } from "../graphql/queries/transactionQuery";
 
 const Cards = () => {
+  const { data, loading } = useQuery(GET_TRANSACTION);
   return (
     <div className="min-h-[40vh] w-full px-10">
       <p className="my-10 text-center text-5xl font-bold">History</p>

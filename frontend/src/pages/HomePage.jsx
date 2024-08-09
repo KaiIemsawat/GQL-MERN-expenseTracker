@@ -90,7 +90,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="relative z-20 mx-auto flex max-w-7xl flex-col items-center justify-center gap-6">
+      <div className="relative z-20 mx-auto flex h-screen max-w-7xl flex-col items-center justify-center gap-6">
         <div className="flex items-center">
           <p className="relative z-50 mb-4 mr-4 inline-block bg-gradient-to-r from-pink-600 via-indigo-500 to-pink-400 bg-clip-text text-center text-2xl font-bold text-transparent md:text-4xl lg:text-4xl">
             Spend wisely, track wisely

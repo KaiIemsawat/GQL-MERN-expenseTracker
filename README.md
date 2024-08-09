@@ -6,21 +6,13 @@
 
 -   [Repository](https://github.com/KaiIemsawat/estate-deploy-01 "Real Estate")
 
-<!-- ## Screenshots -->
+## Screenshots
 
-<!-- ![screenshot](/server/uploads/screenshotForReadme.png "screenshot") -->
+![screenshot](/assets/homepage_screenshot.png "screenshot")
 
 ## Available Commands
 
-<!-- In the project directory, you can run: -->
-
-<!-- ### `"npm start"`, -->
-
-<!-- The app is built using `vite` so this command Runs the app in Development mode. Open [http://localhost:5173](http://localhost:5173) to view it in the browser. You also need to run this command in both client and server directores using the same command, `npm start`, as well to completely run the app. This would launch `nodemon` and allow files on server side each time you update files. You will also see any lint errors in the console. -->
-
-<!-- ### `"npm run build"`, -->
-
-<!-- Builds the app for production to the `dist` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app will be ready to deploy! -->
+In the project directory, you can run: `npm run dev`, from route directory to launch backend. For frontend, the same `npm run dav` can be use in `frontend` directory to run localhost
 
 ## Built With
 
@@ -37,10 +29,10 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
-<!-- ## Future Updates
+## Future Updates
 
--   [ ] Reliable Storage
--   [ ] Upload multiple images -->
+-   [ ] Will need date fixed
+-   [ ] Upload personal profile image
 
 ## Author
 

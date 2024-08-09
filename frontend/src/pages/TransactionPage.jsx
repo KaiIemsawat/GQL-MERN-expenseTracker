@@ -1,11 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { GET_TRANSACTION } from "../graphql/queries/transactionQuery";
-import { UPDATE_TRANSACTION } from "../graphql/mutations/transactionMutation";
 import TransactionFormSkeleton from "../components/skeletons/TransactionFormSkeleton";
+import { UPDATE_TRANSACTION } from "../graphql/mutations/transactionMutation";
+import {
+  GET_TRANSACTION,
+  GET_TRANSACTION_STATISTICS,
+} from "../graphql/queries/transactionQuery";
 
 const TransactionPage = () => {
   const nav = useNavigate();
@@ -17,7 +20,8 @@ const TransactionPage = () => {
   const [updateTransaction, { loading: loadingUpdate }] = useMutation(
     UPDATE_TRANSACTION,
     {
-      refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
+      // refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
+      refetchQueries: [{ query: GET_TRANSACTION_STATISTICS }],
     },
   );
 

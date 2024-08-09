@@ -2,11 +2,22 @@ import { useQuery } from "@apollo/client";
 import Card from "./Card";
 import { GET_TRANSACTIONS } from "../graphql/queries/transactionQuery";
 import toast from "react-hot-toast";
-import { GET_AUTHENTICATED_USER } from "../graphql/queries/userQuery";
+import {
+  GET_AUTHENTICATED_USER,
+  GET_USER_AND_TRANSACTIONS,
+} from "../graphql/queries/userQuery";
 
 const Cards = () => {
   const { data, loading, error } = useQuery(GET_TRANSACTIONS);
   const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
+
+  // * Good to have this below code once the app getting larger
+  // const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
+  //   variables: {
+  //     userId: authUser?.authUser._id,
+  //   },
+  // });
+  // console.log("UserAndTransactions : ", userAndTransactions);
 
   if (error) return toast.error(error.message);
 

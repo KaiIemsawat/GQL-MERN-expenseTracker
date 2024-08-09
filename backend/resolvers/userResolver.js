@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 
 import User from "../models/userModel.js";
+import Transaction from "../models/transactionModel.js";
 
 const userResolver = {
     Mutation: {

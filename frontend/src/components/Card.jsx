@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transactionMutation";
 import toast from "react-hot-toast";
+import { formatDate } from "../utils/formatDate";
 
 const categoryColorMap = {
   saving: "from-green-700 to-green-400",
@@ -28,6 +29,7 @@ const Card = ({ transaction, authUser }) => {
   description = description[0]?.toUpperCase() + description.slice(1);
   category = category[0]?.toUpperCase() + category.slice(1);
   paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
+  const formattedDate = formatDate(date);
 
   const handleDelete = async () => {
     try {
@@ -75,7 +77,9 @@ const Card = ({ transaction, authUser }) => {
           Location: {location || "N/A"}
         </p>
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold text-black">21 Sep, 2001</p>
+          <p className="text-sm font-semibold text-slate-300">
+            {formattedDate}
+          </p>
           <img
             src={authUser?.profilePicture}
             className="h-8 w-8 rounded-full border"

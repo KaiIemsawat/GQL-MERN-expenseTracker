@@ -3,7 +3,7 @@ import { CREATE_TRANSACTION } from "../graphql/mutations/transactionMutation";
 import toast from "react-hot-toast";
 
 const TransactionForm = () => {
-  // TODO => REFETCH ONCE CREATE THE TRANSACTION
+  // TODO => WHEN RELATIONSHIPS ARE ADDED, CHANGE THE REFETCH QUERY A BIT
 
   const [createtransaction, { loading }] = useMutation(CREATE_TRANSACTION, {
     refetchQueries: ["GetTransactions", "GetTransactionStatistics"],

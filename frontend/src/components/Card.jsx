@@ -49,11 +49,10 @@ const Card = ({ transaction, authUser }) => {
         <div className="flex flex-row items-center justify-between">
           <h2 className="text-lg font-bold text-white">{category}</h2>
           <div className="flex items-center gap-2">
-            {!loading && (
-              <FaTrash className={"cursor-pointer"} onClick={handleDelete} />
-            )}
-            {loading && (
+            {loading ? (
               <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2"></div>
+            ) : (
+              <FaTrash className={"cursor-pointer"} onClick={handleDelete} />
             )}
             <Link to={`/transaction/${transaction._id}`}>
               <HiPencilAlt className="cursor-pointer" size={20} />

@@ -1,18 +1,49 @@
-import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
+import { GET_TRANSACTION } from "../graphql/queries/transactionQuery";
+import { UPDATE_TRANSACTION } from "../graphql/mutations/transactionMutation";
+import TransactionFormSkeleton from "../components/skeletons/TransactionFormSkeleton";
 
 const TransactionPage = () => {
+  const nav = useNavigate();
+  const { id } = useParams(); // {id} <= matches with params from App.jsx 'path="/transaction/:id"'
+  const { loading, data } = useQuery(GET_TRANSACTION, {
+    variables: { id }, // {id} <= matches with id from 'GetTransaction($id: ID!)' from transactionQuery.js
+  });
+
+  const [updateTransaction, { loading: loadingUpdate }] =
+    useMutation(UPDATE_TRANSACTION);
+
   const [formData, setFormData] = useState({
-    description: "",
-    paymentType: "",
-    category: "",
-    amount: "",
-    location: "",
-    date: "",
+    description: data?.transaction?.description || "",
+    paymentType: data?.transaction?.paymentType || "",
+    category: data?.transaction?.category || "",
+    amount: data?.transaction?.amount || "",
+    location: data?.transaction?.location || "",
+    date: data?.transaction?.date || "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData", formData);
+    const amount = parseFloat(formData.amount); // convert string value (by default) to float
+    try {
+      await updateTransaction({
+        variables: {
+          input: {
+            ...formData,
+            amount,
+            transactionId: id,
+          },
+        },
+      });
+      toast.success("successfully updated transaction.!");
+      nav("/");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +53,20 @@ const TransactionPage = () => {
     }));
   };
 
-  // if (loading) return <TransactionFormSkeleton />;
+  useEffect(() => {
+    if (data) {
+      setFormData({
+        description: data?.transaction?.description,
+        paymentType: data?.transaction?.paymentType,
+        category: data?.transaction?.category,
+        amount: data?.transaction?.amount,
+        location: data?.transaction?.location,
+        date: new Date(+data?.transaction?.date).toISOString().substr(0, 10), // convert timestamp to date
+      });
+    }
+  }, [data]);
+
+  if (loading) return <TransactionFormSkeleton />;
 
   return (
     <div className="mx-auto flex h-screen max-w-4xl flex-col items-center">
@@ -50,6 +94,7 @@ const TransactionPage = () => {
               placeholder="Rent, Groceries, Salary, etc."
               value={formData.description}
               onChange={handleInputChange}
+              required
             />
           </div>
         </div>
@@ -133,6 +178,7 @@ const TransactionPage = () => {
               placeholder="150"
               value={formData.amount}
               onChange={handleInputChange}
+              required
             />
           </div>
         </div>
@@ -154,6 +200,7 @@ const TransactionPage = () => {
               placeholder="New York"
               value={formData.location}
               onChange={handleInputChange}
+              required
             />
           </div>
 
@@ -181,7 +228,7 @@ const TransactionPage = () => {
           className="w-full rounded bg-gradient-to-br from-pink-500 to-pink-500 px-4 py-2 font-bold text-white hover:from-pink-600 hover:to-pink-600"
           type="submit"
         >
-          Update Transaction
+          {loadingUpdate ? "Updating..." : "Update Transaction"}
         </button>
       </form>
     </div>

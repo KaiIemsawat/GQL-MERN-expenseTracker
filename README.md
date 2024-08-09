@@ -8,7 +8,7 @@
 
 ## Screenshots
 
-![screenshot](/assets/homepage_screenshot.png "screenshot")
+![screenshot](/assets/homepage_screenshot2.png "screenshot")
 
 ## Available Commands
 

@@ -13,35 +13,14 @@ import { GET_AUTHENTICATED_USER } from "../graphql/queries/userQuery";
 import { useEffect, useState } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-// const chartData = {
-//   labels: ["Saving", "Expense", "Investment"],
-//   datasets: [
-//     {
-//       label: "%",
-//       data: [13, 8, 3],
-//       backgroundColor: [
-//         "rgba(75, 192, 192)",
-//         "rgba(255, 99, 132)",
-//         "rgba(54, 162, 235)",
-//       ],
-//       borderColor: [
-//         "rgba(75, 192, 192)",
-//         "rgba(255, 99, 132)",
-//         "rgba(54, 162, 235, 1)",
-//       ],
-//       borderWidth: 1,
-//       borderRadius: 0,
-//       spacing: 0,
-//       cutout: 116,
-//     },
-//   ],
-// };
 
 const HomePage = () => {
   const { data } = useQuery(GET_TRANSACTION_STATISTICS);
   const { data: authUserData } = useQuery(GET_AUTHENTICATED_USER);
 
-  const [logout, { loading }] = useMutation(LOGOUT, {
+  console.log(authUserData);
+
+  const [logout, { loading, client }] = useMutation(LOGOUT, {
     refetchQueries: ["GetAuthenticatedUser"],
   });
 
@@ -102,6 +81,7 @@ const HomePage = () => {
     try {
       await logout(); // Clear Apollo Client cache
       toast.success("successfully logged out");
+      client.resetStore();
     } catch (error) {
       console.error("Error logging out : ", error);
       toast.error(error.message);

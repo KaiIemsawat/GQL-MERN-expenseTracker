@@ -10,8 +10,6 @@ const Cards = () => {
 
   if (error) return toast.error(error.message);
 
-  console.log("Cards: ", data);
-
   // TODO => ADD RELATIONSHIPS
   return (
     <div className="min-h-[40vh] w-full px-10">

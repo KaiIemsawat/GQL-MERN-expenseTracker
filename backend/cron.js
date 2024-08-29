@@ -12,23 +12,23 @@
 // 30 3 15 * * - At 3:30AM, on the 15th of every month
 // 0 0 1 1 * - At midnight, on January 1st
 
-import cron from "cron";
-import https from "https";
+// import cron from "cron";
+// import https from "https";
 
-const URL = "https://gql-mern-expensetracker.onrender.com";
+// const URL = "https://gql-mern-expensetracker.onrender.com";
 
-const job = new cron.CronJob("*/14 * * * *", function () {
-    https
-        .get(URL, (res) => {
-            if (res.statusCode === 200) {
-                console.log("GET request sent successfully");
-            } else {
-                console.log("GET request failed", res.statusCode);
-            }
-        })
-        .on("error", (e) => {
-            console.error("Error while sending request", e);
-        });
-});
+// const job = new cron.CronJob("*/14 * * * *", function () {
+//     https
+//         .get(URL, (res) => {
+//             if (res.statusCode === 200) {
+//                 console.log("GET request sent successfully");
+//             } else {
+//                 console.log("GET request failed", res.statusCode);
+//             }
+//         })
+//         .on("error", (e) => {
+//             console.error("Error while sending request", e);
+//         });
+// });
 
-export default job;
+// export default job;

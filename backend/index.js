@@ -16,12 +16,12 @@ import mergeResolvers from "./resolvers/index.js";
 import mergedTypeDefs from "./typeDefs/index.js";
 import { connectDB } from "./db/connectDB.js";
 import { configurePassport } from "./passport/passportConfig.js";
-import job from "./cron.js";
+// import job from "./cron.js";
 
 dotenv.config();
 configurePassport();
 
-job.start();
+// job.start();
 
 const __dirname = path.resolve();
 const app = express();
